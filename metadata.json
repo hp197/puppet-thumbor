@@ -1,0 +1,18 @@
+{
+  "name": "puppet-thumbor",
+  "version": "0.1.0",
+  "author": "TMGMedia",
+  "summary": "Installs, configures and manages Thumbor installations",
+  "license": "Apache-2.0",
+  "source": "https://github.com/TMGMedia/puppet-thumbor",
+  "project_page": "https://github.com/TMGMedia/puppet-thumbor",
+  "issues_url": "https://github.com/TMGMedia/puppet-thumbor/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "data_provider": null
+}
+
