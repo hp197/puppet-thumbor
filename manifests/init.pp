@@ -88,6 +88,7 @@ class thumbor (
   Optional[String] $security_key    = $thumbor::params::security_key,
   String           $host            = $thumbor::params::host,
   Integer          $port            = $thumbor::params::port,
+  Optional[String] $virtualenv_path = $thumbor::params::virtualenv_path,
   String           $package_name    = $thumbor::params::package_name,
   String           $package_ensure  = $thumbor::params::package_ensure,
   Optional[String] $proxy_server    = $thumbor::params::proxy_server,
@@ -95,8 +96,21 @@ class thumbor (
   String           $group           = $thumbor::params::group,
   Array            $filters         = $thumbor::params::filters,
   Array            $detectors       = $thumbor::params::detectors,
-  Array            $allowed_sources = $thumbor::params::allowed_sources,   
+  Array            $allowed_sources = $thumbor::params::allowed_sources,
 ) inherits thumbor::params
 {
+  $apppath = $virtualenv_path ? {
+    undef   => '/usr/local/',
+    default => "${virtualenv_path}/",
+  }
 
+  class{ 'thumbor::install': }
+
+  -> file { "${apppath}/thumbor.key":
+    ensure  => $package_ensure,
+    content => $security_key,
+    owner   => $user,
+    group   => $group,
+    mode    => '0644',
+  } 
 }
