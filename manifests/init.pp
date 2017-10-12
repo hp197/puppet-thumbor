@@ -47,21 +47,6 @@
 #   Default: thumbor
 #   Group to run thumbor as.
 #
-# [*filters*]
-#   Array
-#   Default: []
-#   Filters to load into thumbor.
-#
-# [*detectors*]
-#   Array
-#   Default: []
-#   Detectors to load into thumbor.
-#
-# [*allowed_sources*]
-#   Array
-#   Default: [ 'ˆ.*$' ]
-#   Allowed sources to fetch from.
-#
 #
 # Variables
 # ----------
@@ -85,18 +70,20 @@
 # Copyright 2017 Your name here, unless otherwise noted.
 #
 class thumbor (
-  Optional[String] $security_key    = $thumbor::params::security_key,
-  String           $host            = $thumbor::params::host,
-  Integer          $port            = $thumbor::params::port,
-  Optional[String] $virtualenv_path = $thumbor::params::virtualenv_path,
-  String           $package_name    = $thumbor::params::package_name,
-  String           $package_ensure  = $thumbor::params::package_ensure,
-  Optional[String] $proxy_server    = $thumbor::params::proxy_server,
-  String           $user            = $thumbor::params::user,
-  String           $group           = $thumbor::params::group,
-  Array            $filters         = $thumbor::params::filters,
-  Array            $detectors       = $thumbor::params::detectors,
-  Array            $allowed_sources = $thumbor::params::allowed_sources,
+  Enum['present', 'absent', 'running']  $ensure           = $thumbor::params::ensure,
+  Optional[String]                      $security_key     = $thumbor::params::security_key,
+  String                                $host             = $thumbor::params::host,
+  Integer                               $port             = $thumbor::params::port,
+  Integer                               $processes        = $thumbor::params::processes,
+  Optional[String]                      $virtualenv_path  = $thumbor::params::virtualenv_path,
+  String                                $package_name     = $thumbor::params::package_name,
+  String                                $package_ensure   = $thumbor::params::package_ensure,
+  Optional[String]                      $proxy_server     = $thumbor::params::proxy_server,
+  Boolean                               $ensure_user      = $thumbor::params::ensure_user,
+  String                                $user             = $thumbor::params::user,
+  Boolean                               $ensure_group     = $thumbor::params::ensure_group,
+  String                                $group            = $thumbor::params::group,
+  Hash                                  $raw_config,
 ) inherits thumbor::params
 {
   $apppath = $virtualenv_path ? {
@@ -104,13 +91,10 @@ class thumbor (
     default => "${virtualenv_path}/",
   }
 
-  class{ 'thumbor::install': }
+  anchor { 'thumbor::begin': }
+  -> class{ 'thumbor::install': }
+  -> class{ 'thumbor::config': }
+  -> class{ 'thumbor::service': }
+  -> anchor { 'thumbor::end': }
 
-  -> file { "${apppath}/thumbor.key":
-    ensure  => $package_ensure,
-    content => $security_key,
-    owner   => $user,
-    group   => $group,
-    mode    => '0644',
-  } 
 }
