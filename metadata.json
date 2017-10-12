@@ -9,11 +9,11 @@
   "issues_url": "https://github.com/TMGMedia/puppet-thumbor/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
+      "name": "puppetlabs/stdlib",
       "version_requirement": ">= 1.0.0"
     },
     {
-      "name": "stankevich/puppet-python",
+      "name": "stankevich/python",
       "version_requirement": ">= 1.12.0 < 3.0.0"
     }
   ],
