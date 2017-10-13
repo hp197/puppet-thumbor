@@ -15,12 +15,17 @@
 # [*host*]
 #   String
 #   Default: 0.0.0.0
-#   The ip to bind to
+#   The ip to bind to.
 #
-# [*port*]
-#   Integer
-#   Default: 3000
-#   The port to listen on
+# [*ports*]
+#   Array[Integer]
+#   Default: [ 8000 ]
+#   The port(s) to listen on.
+#
+# [*virtualenv_path*]
+#   String
+#   Default: undef
+#   If set thumbor will be build in a virtualenv
 #
 # [*package_name*]
 #   String
@@ -37,15 +42,30 @@
 #   Default: false
 #   Proxy server to use when installing from pip (or false to disable functionality)
 #
+# [*ensure_user*]
+#   Boolean
+#   Default: true
+#   If this module will manage the user.
+#
 # [*user*]
 #   String
 #   Default: thumbor
 #   User to run thumbor as.
 #
+# [*ensure_group*]
+#   Boolean
+#   Default: true
+#   If this module will manage the group.
+#
 # [*group*]
 #   String
 #   Default: thumbor
 #   Group to run thumbor as.
+#
+# [*raw_config*]
+#   Hash
+#   Default: {}
+#   The configuration for thumbor.
 #
 #
 # Variables
@@ -62,19 +82,14 @@
 # Authors
 # -------
 #
-# Author Name <author@domain.com>
+# Author Name <henry@nitronetworks.nl>
 #
-# Copyright
-# ---------
-#
-# Copyright 2017 Your name here, unless otherwise noted.
 #
 class thumbor (
   Enum['present', 'absent', 'running']  $ensure           = $thumbor::params::ensure,
   Optional[String]                      $security_key     = $thumbor::params::security_key,
   String                                $host             = $thumbor::params::host,
-  Integer                               $port             = $thumbor::params::port,
-  Integer                               $processes        = $thumbor::params::processes,
+  Array[Integer]                        $ports            = $thumbor::params::ports,
   Optional[String]                      $virtualenv_path  = $thumbor::params::virtualenv_path,
   String                                $package_name     = $thumbor::params::package_name,
   String                                $package_ensure   = $thumbor::params::package_ensure,

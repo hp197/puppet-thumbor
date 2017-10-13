@@ -2,17 +2,31 @@ class thumbor::service
 (
 )
 {
-  file { '/etc/systemd/user/thumbor@.service':
+  anchor { 'thumbor::service::begin': }
+  -> file { '/etc/systemd/system/thumbor@.service':
     ensure  => 'present',
     owner   => $thumbor::user,
     group   => $thumbor::group,
     mode    => '0644',
     content => template('thumbor/thumbor.systemd.erb')
-    #notify  => Service['thumbor'],
+  }
+  -> thumbor::service::systemd{ $thumbor::ports: }
+  -> anchor { 'thumbor::service::end': }
+}
+
+define thumbor::service::systemd
+(
+  $port => $name,
+)
+{
+  exec { "thumbor-systemd-port-${port}":
+    command => "systemctl enable thumbor@${port}",
+    creates => "/etc/systemd/system/multi-user.target.wants/thumbor@${port}.service",
+    path    => [ '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin' ],
   }
 
-#  service { 'thumbor':
-#    require => File[ '/etc/default/thumbor.conf' ]
-#    ensure  => $thumbor::ensure,
-#  }
+  service { "thumbor@${port}":
+    enable    => true,
+    provider  => 'systemd',
+  }
 }
