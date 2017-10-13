@@ -1,89 +1,172 @@
-# thumbor
+[puppet-thumbor](https://gitlab.com/hp197/puppet-thumbor)
+==============
 
 #### Table of Contents
 
-1. [Description](#description)
-1. [Setup - The basics of getting started with thumbor](#setup)
-    * [What thumbor affects](#what-thumbor-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with thumbor](#beginning-with-thumbor)
-1. [Usage - Configuration options and additional functionality](#usage)
-1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
+1. [Overview](#overview)
+2. [Dependencies - Where this module depends on](#dependencies)
+3. [Usage - Configuration options and additional functionality](#usage)
+4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+5. [Limitations - OS compatibility, etc.](#limitations)
+6. [Development - Guide for contributing to the module](#development)
 
-## Description
+## Overview
 
-Start with a one- or two-sentence summary of what the module does and/or what
-problem it solves. This is your 30-second elevator pitch for your module.
-Consider including OS/Puppet version it works with.
+Puppet module to deploy and manage Thumbor http://github.com/globocom/thumbor.
 
-You can give more descriptive information in a second paragraph. This paragraph
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?" If your module has a range of functionality (installation, configuration,
-management, etc.), this is the time to mention it.
+## Dependencies
 
-## Setup
+This module depends on: 
 
-### What thumbor affects **OPTIONAL**
-
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
-
-If there's more that they should know about, though, this is the place to mention:
-
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section
-here.
-
-### Beginning with thumbor
-
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most
-basic use of the module.
+* [puppetlabs/stdlib](https://forge.puppetlabs.com/puppetlabs/stdlib) for standard libraries.
+* [stankevich/python](https://github.com/stankevich/puppet-python) for python virtualenv and pip installation.
 
 ## Usage
 
-This section is where you describe how to customize, configure, and do the
-fancy stuff with your module here. It's especially helpful if you include usage
-examples and code samples for doing things with your module.
+### Short demo
+
+Install Thumbor in your environment:
+
+```
+class { 'thumbor':
+  ports => [ '8000' ],
+}
+```
+
+Next go on your favorite shell browser (like curl or wget) and open http://127.0.0.1:8000/unsafe/200x200/https://puppet.com/themes/hoverboard/images/puppet-logo/puppet-logo-amber-white-lg.png (as an example) from the same machine as to where you applied the puppet code.
+
+### Classes and Defined Types
+
+#### Class: Thumbor
+
+Installs and manages Thumbor
+
+** Parameters within `thumbor`
+
+#### `ensure`
+
+Enum['present', 'absent']
+*Default: present*
+
+Controls if everything will be installed or forcefully will be removed
+
+#### `security_key`
+
+Optional[String]
+*Default: undef*
+
+The security key to hash the requested url with in Thumbor.
+Please see the documentation of Thumbor for more information about this topic.
+
+#### `listen`
+
+String
+*Default: 127.0.0.1*
+
+The ip address to listen on.
+
+#### `ports`
+
+Variant[Array[String],String]
+*Default: [ '8000' ]*
+
+The port(s) Thumbor listens on.
+This settings also controls how many instances are spinned up.
+
+#### `virtualenv_path`
+
+Optional[String]
+*Default: undef*
+
+If this setting is undef we will not use virtualenv.
+If set, we will use the path as base for a virtual environment.
+
+#### `package_name`
+
+String
+*Default: thumbor*
+
+Name of the pip package to install.
+
+#### `package_ensure`
+
+Enum['present', 'absent', 'latest']
+*Default: [$ensure](#ensure)*
+
+Controls what is ensured on the pip installation.
+Can be set to latest, to force pip to always installs the latest available version.
+But can also be set to a specifc version to force that version to be installed.
+
+#### `pip_proxyserver`
+
+Variant[Boolean, String]
+*Default: false*
+
+The full URL to the proxy server to use with the pip installation of packages.
+Note that if you dont want to use a proxy, this should be set to false.
+
+#### `ensure_user`
+
+Boolean
+*Default: true*
+
+If we should manage the user from the thumbor code.
+
+#### `user`
+
+String
+*Default: thumbor*
+
+The user to run the thumbor process with.
+
+#### `ensure_group`
+
+Boolean
+*Default: true*
+
+If we should manage the user from the thumbor code.
+
+#### `group`
+
+String
+*Default: thumbor*
+
+The group to run the thumbor process with.
+
+#### `config`
+
+Hash
+*Default: {'allowed_sources' => ['.']}*
+
+The configuration for thumbor.
+Note the hash keys will be converted to upper case.
+
+You can refer to Thumbor wiki for configuration options https://github.com/globocom/thumbor/wiki/Configuration 
 
 ## Reference
 
-Users need a complete list of your module's classes, types, defined types providers, facts, and functions, along with the parameters for each. You can provide this list either via Puppet Strings code comments or as a complete list in this Reference section.
+### Classes
 
-* If you are using Puppet Strings code comments, this Reference section should include Strings information so that your users know how to access your documentation.
+#### Public Classes
 
-* If you are not using Puppet Strings, include a list of all of your classes, defined types, and so on, along with their parameters. Each element in this listing should include:
+* `thumbor`: Installs and manages Thumbor
 
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
+#### Private Classes
+
+* [`thumbor::config`]  Manages the configuration of the thumbor application
+* [`thumbor::install`] Manages the installation of the thumbor packages
+* [`thumbor::service`] Manages the installation of the thumbor services
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc. If there
-are Known Issues, you might want to include them under their own heading here.
+This module is tested on the following platforms:
+
+* Debian 9 (stretch)
+
+It is tested with the OSS version of Puppet (>= 4.10.0) only.
 
 ## Development
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+### Contributing
 
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel
-are necessary or important to include here. Please use the `## ` header.
+Please read CONTRIBUTING.md for full details on contributing to this project.

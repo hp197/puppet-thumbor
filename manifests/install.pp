@@ -3,12 +3,11 @@ class thumbor::install
 (
 )
 {
-  anchor { 'thumbor::install::begin': }
-
-  $proxy = $thumbor::proxy_server ? {
-    undef   => false,
-    default => $thumbor::proxy_server,
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
   }
+
+  anchor { 'thumbor::install::begin': }
 
   if $thumbor::ensure_group {
     group { $thumbor::group:
@@ -42,11 +41,10 @@ class thumbor::install
     require     => Anchor['thumbor::install::begin'],
   }
 
-  if $thumbor::virtualenv_path
-  {
+  if $thumbor::virtualenv_path {
     # Install thumbor in a virtualenv.
     python::virtualenv { $thumbor::virtualenv_path:
-      ensure  => $thumbor::package_ensure,
+      ensure  => $thumbor::ensure,
       version => 'system',
       proxy   => $proxy,
       owner   => $thumbor::user,
@@ -75,13 +73,13 @@ class thumbor::install
     before      => Anchor['thumbor::install::end'],
   }
 
-  ensure_packages(['libglib2.0-0', 'libsm6', 'libxrender1'])
+  ensure_packages(['libglib2.0-0', 'libsm6', 'libxrender1', 'libxext6'])
 
   python::pip { 'opencv-python':
     ensure      => $thumbor::package_ensure,
     virtualenv  => $venv,
     proxy       => $proxy,
-    require     => [ Package[['libglib2.0-0', 'libsm6', 'libxrender1']], Anchor['thumbor::install::virtualenv'] ],
+    require     => [ Package[['libglib2.0-0', 'libsm6', 'libxrender1', 'libxext6']], Anchor['thumbor::install::virtualenv'] ],
     before      => Anchor['thumbor::install::end'],
   }
 
