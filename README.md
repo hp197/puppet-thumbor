@@ -1,4 +1,4 @@
-[puppet-thumbor](https://gitlab.com/hp197/puppet-thumbor)
+[puppet-thumbor](https://github.com/hp197/puppet-thumbor)
 ==============
 
 #### Table of Contents
