@@ -5,7 +5,7 @@ class thumbor::params
   String            $ensure           = 'present',
   Optional[String]  $security_key     = undef,
   String            $host             = '0.0.0.0',
-  Array[Integer]    $ports            = [ 8000 ],
+  Array[String]     $ports            = [ '8000' ],
   Optional[String]  $virtualenv_path  = undef,
   String            $package_name     = 'thumbor',
   String            $package_ensure   = 'present',

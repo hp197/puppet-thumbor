@@ -16,7 +16,7 @@ class thumbor::service
 
 define thumbor::service::systemd
 (
-  $port => $name,
+  $port = $name,
 )
 {
   exec { "thumbor-systemd-port-${port}":
