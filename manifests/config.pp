@@ -17,7 +17,7 @@ class thumbor::config
     group   => $thumbor::group,
     mode    => '0644',
   }
-  -> file { "${thumbor::apppath}/thumbor.conf": 
+  -> file { "${thumbor::apppath}/thumbor.conf":
     ensure  => $thumbor::package_ensure,
     content => template('thumbor/thumbor.conf.erb'),
     owner   => $thumbor::user,

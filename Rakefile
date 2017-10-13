@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet-lint/tasks/puppet-lint'
 require 'metadata-json-lint/rake_task'
@@ -9,17 +10,18 @@ end
 
 PuppetLint.configuration.log_format = '%{path}:%{line}:%{check}:%{KIND}:%{message}'
 PuppetLint.configuration.send('relative')
-PuppetLint.configuration.send('disable_140chars')
+#PuppetLint.configuration.send('disable_variable_is_lowercase')
+#PuppetLint.configuration.send('disable_140chars')
 #PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 #PuppetLint.configuration.send('disable_documentation')
 #PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 PuppetLint.configuration.send('disable_80chars')
 
 exclude_paths = %w(
-  pkg/**/*
-  vendor/**/*
-  .vendor/**/*
-  spec/**/*
+  pkg/**/*.pp
+  vendor/**/*.pp
+  .vendor/**/*.pp
+  spec/**/*.pp
 )
 PuppetLint.configuration.ignore_paths = exclude_paths
 PuppetSyntax.exclude_paths = exclude_paths
@@ -40,8 +42,7 @@ end
 
 desc 'Run lint, validate, and spec tests.'
 task :test do
-  [:syntax, :lint, :validate, :spec, :metadata].each do |test|
+  [:lint, :validate, :spec].each do |test|
     Rake::Task[test].invoke
   end
 end
-

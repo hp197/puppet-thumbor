@@ -22,9 +22,10 @@
 #
 #
 class thumbor (
+  Hash                                  $config,
   Enum['present', 'absent']             $ensure           = $thumbor::params::ensure,
   Optional[String]                      $security_key     = $thumbor::params::security_key,
-  String                                $listen           = $thumbor::params::host,
+  String                                $listen           = $thumbor::params::listen,
   Variant[Array[String],String]         $ports            = $thumbor::params::ports,
   Optional[String]                      $virtualenv_path  = $thumbor::params::virtualenv_path,
   String                                $package_name     = $thumbor::params::package_name,
@@ -34,7 +35,6 @@ class thumbor (
   String                                $user             = $thumbor::params::user,
   Boolean                               $ensure_group     = $thumbor::params::ensure_group,
   String                                $group            = $thumbor::params::group,
-  Hash                                  $config,
 ) inherits thumbor::params
 {
   $apppath = $virtualenv_path ? {
