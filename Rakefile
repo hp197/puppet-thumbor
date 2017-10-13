@@ -7,9 +7,23 @@ if RUBY_VERSION >= '1.9'
   RuboCop::RakeTask.new
 end
 
+PuppetLint.configuration.log_format = '%{path}:%{line}:%{check}:%{KIND}:%{message}'
+PuppetLint.configuration.send('relative')
+PuppetLint.configuration.send('disable_140chars')
+#PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+#PuppetLint.configuration.send('disable_documentation')
+#PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 PuppetLint.configuration.send('disable_80chars')
-PuppetLint.configuration.relative = true
-PuppetLint.configuration.ignore_paths = ['spec/**/*.pp', 'pkg/**/*.pp']
+
+exclude_paths = %w(
+  pkg/**/*
+  vendor/**/*
+  .vendor/**/*
+  spec/**/*
+)
+PuppetLint.configuration.ignore_paths = exclude_paths
+PuppetSyntax.exclude_paths = exclude_paths
+
 
 desc 'Validate manifests, templates, and ruby files'
 task :validate do
@@ -26,7 +40,8 @@ end
 
 desc 'Run lint, validate, and spec tests.'
 task :test do
-  [:lint, :validate, :spec].each do |test|
+  [:syntax, :lint, :validate, :spec, :metadata].each do |test|
     Rake::Task[test].invoke
   end
 end
+
