@@ -89,7 +89,7 @@ class thumbor (
   Enum['present', 'absent', 'running']  $ensure           = $thumbor::params::ensure,
   Optional[String]                      $security_key     = $thumbor::params::security_key,
   String                                $host             = $thumbor::params::host,
-  Array[Integer]                        $ports            = $thumbor::params::ports,
+  Array[String]                         $ports            = $thumbor::params::ports,
   Optional[String]                      $virtualenv_path  = $thumbor::params::virtualenv_path,
   String                                $package_name     = $thumbor::params::package_name,
   String                                $package_ensure   = $thumbor::params::package_ensure,
