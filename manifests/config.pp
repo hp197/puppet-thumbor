@@ -15,7 +15,7 @@ class thumbor::config
     content => $thumbor::security_key,
     owner   => $thumbor::user,
     group   => $thumbor::group,
-    mode    => '0644',
+    mode    => '0600',
   }
   -> file { "${thumbor::apppath}/thumbor.conf":
     ensure  => $thumbor::package_ensure,
