@@ -58,7 +58,7 @@ class thumbor::install
     before  => Anchor['thumbor::install::end'],
   }
 
-  ensure_packages(['libcurl4-openssl-dev', 'build-essential', 'libssl-dev'])
+  ensure_packages(['libcurl4-openssl-dev', 'build-essential', 'libssl-dev', 'libjpeg-turbo-progs'])
 
   $venv = $thumbor::virtualenv_path ? {
     undef   => 'system',
@@ -80,6 +80,14 @@ class thumbor::install
     virtualenv => $venv,
     proxy      => $thumbor::pip_proxyserver,
     require    => [ Package[['libglib2.0-0', 'libsm6', 'libxrender1', 'libxext6']], Anchor['thumbor::install::virtualenv'] ],
+    before     => Anchor['thumbor::install::end'],
+  }
+
+  python::pip { $thumbor::extentions: 
+    ensure     => $thumbor::package_ensure,
+    virtualenv => $venv,
+    proxy      => $thumbor::pip_proxyserver,
+    require    => Anchor['thumbor::install::virtualenv'],
     before     => Anchor['thumbor::install::end'],
   }
 

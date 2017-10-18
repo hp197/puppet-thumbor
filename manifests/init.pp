@@ -19,6 +19,7 @@
 # @param user [String] Name of the user to install (optional) and under which we run the thumbor service, default thumbor
 # @param ensure_group [Boolean] If we control the installation of the group, default true
 # @param group [String] Name of the group to install (optional) and under which we run the thumbor service, default thumbor
+# @param extensions Array[String] Extentions to install in thumbor virtual environment, default []
 #
 #
 class thumbor (
@@ -35,6 +36,7 @@ class thumbor (
   String                                $user             = $thumbor::params::user,
   Boolean                               $ensure_group     = $thumbor::params::ensure_group,
   String                                $group            = $thumbor::params::group,
+  Array[String]                         $extentions       = $thumbor::params::extentions,
 ) inherits thumbor::params
 {
   $apppath = $virtualenv_path ? {
