@@ -7,7 +7,6 @@ Type=simple
 Restart=on-failure
 StandardOutput=journal
 PrivateTmp=true
-PIDFile=/var/run/thumbor/%i.pid
 WorkingDirectory=<%= scope.lookupvar('thumbor::apppath') %>
 ExecStart=<%= scope.lookupvar('thumbor::apppath') -%>/bin/thumbor -c "<%= scope.lookupvar('thumbor::apppath') -%>/thumbor.conf" -k "<%= scope.lookupvar('thumbor::apppath') -%>/thumbor.key" -i "<%= scope.lookupvar('thumbor::listen') -%>" -p "%i"
 User=<%= scope.lookupvar('thumbor::user') %>

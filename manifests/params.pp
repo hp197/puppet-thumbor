@@ -13,9 +13,7 @@ class thumbor::params
   String                        $user             = 'thumbor',
   Boolean                       $ensure_group     = true,
   String                        $group            = 'thumbor',
-  Hash                          $default_options  = {
-    'allowed_sources' => ['.'],
-  },
+  Hash                          $default_options  = {},
 )
 {
 }
