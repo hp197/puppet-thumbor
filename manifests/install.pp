@@ -58,7 +58,7 @@ class thumbor::install
     before  => Anchor['thumbor::install::end'],
   }
 
-  ensure_packages(['libcurl4-openssl-dev', 'build-essential', 'libssl-dev', 'libjpeg-turbo-progs'])
+  ensure_packages(['libcurl4-openssl-dev', 'build-essential', 'libssl-dev', 'libjpeg-turbo-progs', 'gifsicle'])
 
   $venv = $thumbor::virtualenv_path ? {
     undef   => 'system',
