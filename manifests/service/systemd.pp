@@ -13,8 +13,8 @@ define thumbor::service::systemd
   exec { "thumbor-systemd-start-port-${port}":
     command => "systemctl start thumbor@${port}",
     path    => [ '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin' ],
-    unless  => "systemctl status thumbor@${port}"
     notify  => Exec['thumbor-systemd-reload'],
+    unless  => "systemctl status thumbor@${port}",
     require => Exec["thumbor-systemd-enable-port-${port}"],
   }
 
