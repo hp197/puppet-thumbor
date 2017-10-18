@@ -19,8 +19,9 @@ class thumbor::service
   -> anchor { 'thumbor::service::end': }
 
   exec { 'thumbor-systemd-reload':
-    command => 'systemctl daemon-reload',
-    path    => [ '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin' ],
+    command     => 'systemctl daemon-reload',
+    refreshonly => true,
+    path        => [ '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin' ],
   }
 }
 
