@@ -83,7 +83,7 @@ class thumbor::install
     before     => Anchor['thumbor::install::end'],
   }
 
-  python::pip { $thumbor::extentions: 
+  python::pip { [ $thumbor::extentions ]: 
     ensure     => $thumbor::package_ensure,
     virtualenv => $venv,
     proxy      => $thumbor::pip_proxyserver,

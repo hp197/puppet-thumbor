@@ -13,7 +13,7 @@ class thumbor::params
   String                        $user             = 'thumbor',
   Boolean                       $ensure_group     = true,
   String                        $group            = 'thumbor',
-  Array[String]                 $extentions       = [],
+  Variant[Array[String],String] $extentions       = [],
   Hash                          $default_options  = {},
 )
 {
