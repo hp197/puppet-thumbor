@@ -37,6 +37,7 @@ class thumbor (
   Boolean                             $ensure_group     = $thumbor::params::ensure_group,
   String                              $group            = $thumbor::params::group,
   Variant[Array[String],String]       $extentions       = $thumbor::params::extentions,
+  Array                               $additional_packages = $thumbor::params::additional_packages,
 ) inherits thumbor::params
 {
   $apppath = $virtualenv_path ? {
