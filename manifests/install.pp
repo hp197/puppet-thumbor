@@ -35,9 +35,9 @@ class thumbor::install
 
   class { 'python' :
     version    => 'system',
-    pip        => true,
-    dev        => true,
-    virtualenv => true,
+    pip        => 'present',
+    dev        => 'present',
+    virtualenv => 'present',
     require    => Anchor['thumbor::install::begin'],
   }
 
