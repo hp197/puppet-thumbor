@@ -143,6 +143,13 @@ Note the hash keys will be converted to upper case.
 
 You can refer to Thumbor wiki for configuration options https://github.com/globocom/thumbor/wiki/Configuration 
 
+#### `additional_packages`
+
+[Array]
+*Default: A OS-specific list of packages*
+
+Specifies a list of additional packages that are required for thumbor or any of it's dependencies.
+
 ## Reference
 
 ### Classes
