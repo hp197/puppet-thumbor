@@ -13,7 +13,7 @@
       "version_requirement": ">= 1.0.0"
     },
     {
-      "name": "stankevich/python",
+      "name": "puppet/python",
       "version_requirement": ">= 1.12.0 < 3.0.0"
     },
     {
