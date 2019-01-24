@@ -15,6 +15,10 @@
     {
       "name": "stankevich/python",
       "version_requirement": ">= 1.12.0 < 3.0.0"
+    },
+    {
+      "name": "camptocamp/systemd",
+      "version_requirement": ">= 1.0.0 < 3.0.0"
     }
   ],
   "data_provider": null

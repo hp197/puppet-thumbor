@@ -7,21 +7,10 @@ class thumbor::service
   }
 
   anchor { 'thumbor::service::begin': }
-  -> file { '/etc/systemd/system/thumbor@.service':
-    ensure  => $thumbor::ensure,
-    owner   => $thumbor::user,
-    group   => $thumbor::group,
-    mode    => '0644',
+  -> systemd::unit_file { 'thumbor@.service':
     content => template('thumbor/thumbor.systemd.erb'),
-    notify  => Exec['thumbor-systemd-reload'],
   }
   -> thumbor::service::systemd{ [ $thumbor::ports ]: }
   -> anchor { 'thumbor::service::end': }
-
-  exec { 'thumbor-systemd-reload':
-    command     => 'systemctl daemon-reload',
-    refreshonly => true,
-    path        => [ '/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin' ],
-  }
 }
 
