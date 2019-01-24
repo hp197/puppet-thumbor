@@ -20,23 +20,25 @@
 # @param ensure_group [Boolean] If we control the installation of the group, default true
 # @param group [String] Name of the group to install (optional) and under which we run the thumbor service, default thumbor
 # @param extensions Variant[Array[String],String] Extentions to install in thumbor virtual environment, default []
+# @param additional_packages [Array] Specifies a list of additional packages that are required for thumbor or any of it's dependencies.
 #
 #
 class thumbor (
   Hash                                $config,
-  Enum['present', 'absent']           $ensure           = $thumbor::params::ensure,
-  Optional[String]                    $security_key     = $thumbor::params::security_key,
-  String                              $listen           = $thumbor::params::listen,
-  Variant[Array[String],String]       $ports            = $thumbor::params::ports,
-  Optional[String]                    $virtualenv_path  = $thumbor::params::virtualenv_path,
-  String                              $package_name     = $thumbor::params::package_name,
-  Enum['present', 'absent', 'latest'] $package_ensure   = $thumbor::params::package_ensure,
-  Variant[Boolean, String]            $pip_proxyserver  = $thumbor::params::pip_proxyserver,
-  Boolean                             $ensure_user      = $thumbor::params::ensure_user,
-  String                              $user             = $thumbor::params::user,
-  Boolean                             $ensure_group     = $thumbor::params::ensure_group,
-  String                              $group            = $thumbor::params::group,
-  Variant[Array[String],String]       $extentions       = $thumbor::params::extentions,
+  Enum['present', 'absent']           $ensure              = $thumbor::params::ensure,
+  Optional[String]                    $security_key        = $thumbor::params::security_key,
+  String                              $listen              = $thumbor::params::listen,
+  Variant[Array[String],String]       $ports               = $thumbor::params::ports,
+  Optional[String]                    $virtualenv_path     = $thumbor::params::virtualenv_path,
+  String                              $package_name        = $thumbor::params::package_name,
+  Enum['present', 'absent', 'latest'] $package_ensure      = $thumbor::params::package_ensure,
+  Variant[Boolean, String]            $pip_proxyserver     = $thumbor::params::pip_proxyserver,
+  Boolean                             $ensure_user         = $thumbor::params::ensure_user,
+  String                              $user                = $thumbor::params::user,
+  Boolean                             $ensure_group        = $thumbor::params::ensure_group,
+  String                              $group               = $thumbor::params::group,
+  Variant[Array[String],String]       $extentions          = $thumbor::params::extentions,
+  Array                               $additional_packages = $thumbor::params::additional_packages,
 ) inherits thumbor::params
 {
   $apppath = $virtualenv_path ? {
