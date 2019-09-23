@@ -8,7 +8,7 @@ class thumbor::params
   Optional[String]              $virtualenv_path  = undef,
   String                        $package_name     = 'thumbor',
   String                        $package_ensure   = $ensure,
-  Variant[Boolean, String]      $pip_proxyserver  = false,
+  Optional[String]              $pip_proxyserver  = undef,
   Boolean                       $ensure_user      = true,
   String                        $user             = 'thumbor',
   Boolean                       $ensure_group     = true,

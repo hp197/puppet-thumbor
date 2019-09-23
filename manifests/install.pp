@@ -48,7 +48,7 @@ class thumbor::install
     python::virtualenv { $thumbor::virtualenv_path:
       ensure  => $thumbor::ensure,
       version => 'system',
-      proxy   => $thumbor::proxy,
+      proxy   => $thumbor::pip_proxyserver,
       owner   => $thumbor::user,
       group   => $thumbor::group,
       require => [ Class['python'] ],
