@@ -21,6 +21,7 @@
 # @param group [String] Name of the group to install (optional) and under which we run the thumbor service, default thumbor
 # @param extensions Variant[Array[String],String] Extentions to install in thumbor virtual environment, default []
 # @param additional_packages [Array] Specifies a list of additional packages that are required for thumbor or any of it's dependencies.
+# @param manage_python [Boolean] If we control the installation of Python, default true
 #
 #
 class thumbor (
@@ -39,6 +40,7 @@ class thumbor (
   String                              $group               = $thumbor::params::group,
   Variant[Array[String],String]       $extentions          = $thumbor::params::extentions,
   Array                               $additional_packages = $thumbor::params::additional_packages,
+  Boolean                             $manage_python       = $thumbor::params::manage_python,
 ) inherits thumbor::params
 {
   $apppath = $virtualenv_path ? {

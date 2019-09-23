@@ -15,6 +15,7 @@ class thumbor::params
   String                        $group            = 'thumbor',
   Variant[Array[String],String] $extentions       = [],
   Hash                          $default_options  = {},
+  Boolean                       $manage_python    = true,
 )
 {
   case $facts['os']['family'] {

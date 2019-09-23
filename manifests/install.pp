@@ -33,12 +33,14 @@ class thumbor::install
     }
   }
 
-  class { 'python' :
-    version    => 'system',
-    pip        => 'present',
-    dev        => 'present',
-    virtualenv => 'present',
-    require    => Anchor['thumbor::install::begin'],
+  if $thumbor::manage_python {
+    class { 'python' :
+      version    => 'system',
+      pip        => 'present',
+      dev        => 'present',
+      virtualenv => 'present',
+      require    => Anchor['thumbor::install::begin'],
+    }
   }
 
   if $thumbor::virtualenv_path {
