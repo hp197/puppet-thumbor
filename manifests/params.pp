@@ -8,13 +8,14 @@ class thumbor::params
   Optional[String]              $virtualenv_path  = undef,
   String                        $package_name     = 'thumbor',
   String                        $package_ensure   = $ensure,
-  Variant[Boolean, String]      $pip_proxyserver  = false,
+  Optional[String]              $pip_proxyserver  = undef,
   Boolean                       $ensure_user      = true,
   String                        $user             = 'thumbor',
   Boolean                       $ensure_group     = true,
   String                        $group            = 'thumbor',
   Variant[Array[String],String] $extentions       = [],
   Hash                          $default_options  = {},
+  Boolean                       $manage_python    = true,
 )
 {
   case $facts['os']['family'] {

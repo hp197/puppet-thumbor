@@ -33,12 +33,14 @@ class thumbor::install
     }
   }
 
-  class { 'python' :
-    version    => 'system',
-    pip        => 'present',
-    dev        => 'present',
-    virtualenv => 'present',
-    require    => Anchor['thumbor::install::begin'],
+  if $thumbor::manage_python {
+    class { 'python' :
+      version    => 'system',
+      pip        => 'present',
+      dev        => 'present',
+      virtualenv => 'present',
+      require    => Anchor['thumbor::install::begin'],
+    }
   }
 
   if $thumbor::virtualenv_path {
@@ -46,7 +48,7 @@ class thumbor::install
     python::virtualenv { $thumbor::virtualenv_path:
       ensure  => $thumbor::ensure,
       version => 'system',
-      proxy   => $thumbor::proxy,
+      proxy   => $thumbor::pip_proxyserver,
       owner   => $thumbor::user,
       group   => $thumbor::group,
       require => [ Class['python'] ],
